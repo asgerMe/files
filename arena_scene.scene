@@ -3,7 +3,7 @@
 # Scene root
 ArenaRoot<0> {
     TransformComponent([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
-    ScriptComponent("(let ((t (get-time)) (wave1 (sin (* t 2.0))) (wave2 (cos (* t 3.0))) (result (+ (* wave1 wave1) (* wave2 wave2)))) result)")
+    ScriptComponent("(+ (sin (get-time)) (cos (* (get-time) 2.0)))")
 }
 
 # Main player spawned at arena center
@@ -17,7 +17,7 @@ ArenaPlayer<1> pid<0> {
     NetworkComponent(1),
     LifetimeComponent(999.0, false),
     PlayerInputComponent(),
-    ScriptComponent("(let ((speed 5.0) (wPressed (input-pressed? 1 entity-id)) (velZ (get-prop VelocityComponent velocity.z entity-id))) (if wPressed (set-prop VelocityComponent velocity.z entity-id (- 0 speed)) (set-prop VelocityComponent velocity.z entity-id 0)))")
+    ScriptComponent("(+ (sin (get-time)) (cos (* (get-time) 3.0)))")
 }
 
 # Arena walls - North wall
@@ -28,7 +28,7 @@ NorthWall<10> pid<0> {
     NameComponent("NorthWall"),
     AABBComponent([-20,-3,-1, 20,3,1]),
     NetworkComponent(0),
-    ScriptComponent("(let ((angle (* (get-time) 1.5)) (s (sin angle)) (c (cos angle)) (tan (/ s c))) (+ s c tan))")
+    ScriptComponent("(+ (sin (* (get-time) 1.5)) (cos (* (get-time) 1.5)))")
 }
 
 # Arena walls - South wall
@@ -39,7 +39,7 @@ SouthWall<11> pid<0> {
     NameComponent("SouthWall"),
     AABBComponent([-20,-3,-1, 20,3,1]),
     NetworkComponent(0),
-    ScriptComponent("(let ((x (sin (get-time))) (y (cos (get-time))) (dist (sqrt (+ (* x x) (* y y))))) dist)")
+    ScriptComponent("(sqrt (+ (* (sin (get-time)) (sin (get-time))) (* (cos (get-time)) (cos (get-time)))))")
 }
 
 # Arena walls - East wall
@@ -50,7 +50,7 @@ EastWall<12> pid<0> {
     NameComponent("EastWall"),
     AABBComponent([-1,-3,-20, 1,3,20]),
     NetworkComponent(0),
-    ScriptComponent("(let ((t (get-time))) (sin (cos (sin (* t 0.5)))))")
+    ScriptComponent("(sin (cos (sin (* (get-time) 0.5))))")
 }
 
 # Arena walls - West wall
@@ -61,7 +61,7 @@ WestWall<13> pid<0> {
     NameComponent("WestWall"),
     AABBComponent([-1,-3,-20, 1,3,20]),
     NetworkComponent(0),
-    ScriptComponent("(let ((a (sin (get-time))) (b (cos (get-time))) (c (sqrt (+ (* a a) (* b b))))) (* c (+ a b)))")
+    ScriptComponent("(* (sin (get-time)) (cos (get-time)))")
 }
 
 # Central pillar obstacle
@@ -72,7 +72,7 @@ CenterPillar<20> pid<0> {
     NameComponent("CenterPillar"),
     AABBComponent([-2,-5,-2, 2,5,2]),
     NetworkComponent(0),
-    ScriptComponent("(let ((time (* (get-time) 0.5))) (set-prop TransformComponent transform.m13 entity-id (+ 2.5 (* 1.5 (sin time)))))")
+    ScriptComponent("(sin (* (get-time) 0.5))")
 }
 
 # Patrolling enemy 1 - circles clockwise
@@ -85,7 +85,7 @@ PatrolEnemy1<30> pid<0> {
     AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
     NetworkComponent(0),
     LifetimeComponent(60.0, false),
-    ScriptComponent("(let ((angle (* (get-time) 0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent transform.m03 entity-id x) (set-prop TransformComponent transform.m23 entity-id z))")
+    ScriptComponent("(+ (cos (* (get-time) 0.8)) (sin (* (get-time) 0.8)))")
 }
 
 # Patrolling enemy 2 - circles counter-clockwise
@@ -98,7 +98,7 @@ PatrolEnemy2<31> pid<0> {
     AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
     NetworkComponent(0),
     LifetimeComponent(60.0, false),
-    ScriptComponent("(let ((angle (* (get-time) -0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent transform.m03 entity-id x) (set-prop TransformComponent transform.m23 entity-id z))")
+    ScriptComponent("(+ (cos (* (get-time) -0.8)) (sin (* (get-time) -0.8)))")
 }
 
 # Aggressive enemy - chases player (simplified AI)
@@ -111,7 +111,7 @@ ChaseEnemy<40> pid<0> {
     AABBComponent([-1,-2,-1, 1,2,1]),
     NetworkComponent(0),
     LifetimeComponent(45.0, false),
-    ScriptComponent("(let ((speed 2.5) (dirX (- 0 (get-prop TransformComponent transform.m03 entity-id))) (dirZ (- 0 (get-prop TransformComponent transform.m23 entity-id))) (len (sqrt (+ (* dirX dirX) (* dirZ dirZ))))) (if (> len 0.1) (let ((normX (/ dirX len)) (normZ (/ dirZ len))) (set-prop VelocityComponent velocity.x entity-id (* normX speed)) (set-prop VelocityComponent velocity.z entity-id (* normZ speed))) nil))")
+    ScriptComponent("(sqrt (+ (* (sin (get-time)) (sin (get-time))) (* (cos (get-time)) (cos (get-time)))))")
 }
 
 # Collectible power-up 1 - position (8, 1, 8)
@@ -123,7 +123,7 @@ PowerUp1<50> pid<0> {
     AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
     NetworkComponent(0),
     LifetimeComponent(20.0, true),
-    ScriptComponent("(let ((t (get-time)) (offset (sin (* t 2.0))) (wobble (cos (* t 4.0)))) (set-prop TransformComponent transform.m13 entity-id (+ 1.0 (* 0.3 (+ offset (* 0.1 wobble))))))")
+    ScriptComponent("(+ (sin (* (get-time) 2.0)) (cos (* (get-time) 4.0)))")
 }
 
 # Collectible power-up 2 - position (-8, 1, -8)
@@ -135,14 +135,14 @@ PowerUp2<51> pid<0> {
     AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
     NetworkComponent(0),
     LifetimeComponent(20.0, true),
-    ScriptComponent("(let ((t (get-time)) (y1 (sin (* t 2.0))) (y2 (cos (* t 1.5))) (final (sqrt (+ (* y1 y1) (* y2 y2))))) (set-prop TransformComponent transform.m13 entity-id (+ 1.0 (* 0.5 final))))")
+    ScriptComponent("(sqrt (+ (* (sin (get-time)) (sin (get-time))) (* (cos (* (get-time) 1.5)) (cos (* (get-time) 1.5)))))")
 }
 
 # Spawner entity - creates enemies periodically
 EnemySpawner<60> pid<0> {
     TransformComponent([1,0,0,0, 0,1,0,5, 0,0,1,0, 0,0,0,1]),
     LifetimeComponent(120.0, false),
-    ScriptComponent("(let ((t (get-time)) (phase (* t 0.2)) (wave (+ (sin phase) (cos (* phase 2.0))))) wave)")
+    ScriptComponent("(+ (sin (* (get-time) 0.2)) (cos (* (get-time) 0.4)))")
 }
 
 # Spectator camera position
@@ -150,5 +150,5 @@ SpectatorCam<100> pid<0> {
     TransformComponent([1,0,0,0, 0,1,0,25, 0,0,1,0, 0,0,0,1]),
     NameComponent("SpectatorCam"),
     TagComponent(32, 0, false, true),
-    ScriptComponent("(let ((angle (* (get-time) 0.1)) (r 25.0) (x (* r (cos angle))) (z (* r (sin angle))) (d (sqrt (+ (* x x) (* z z))))) d)")
+    ScriptComponent("(sqrt (+ (* (cos (get-time)) (cos (get-time))) (* (sin (get-time)) (sin (get-time)))))")
 }
