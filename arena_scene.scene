@@ -67,7 +67,7 @@ CenterPillar<20> pid<0> {
     NameComponent("CenterPillar"),
     AABBComponent([-2,-5,-2, 2,5,2]),
     NetworkComponent(0),
-    ScriptComponent("(let ((time (* (get-time) 0.5))) (set-prop TransformComponent transform.m13 entity-id (+ 2.5 (* 1.5 (sin time)))))")
+  
 }
 
 # Patrolling enemy 1 - circles clockwise
@@ -116,7 +116,6 @@ PowerUp1<50> pid<0> {
     AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
     NetworkComponent(0),
     LifetimeComponent(20.0, true),
-    ScriptComponent("(set-prop TransformComponent position.y entity-id (+ 1.0 (* 0.3 (sin (* (get-time) 2.0)))))")
 }
 
 # Collectible power-up 2 - position (-8, 1, -8)
@@ -128,7 +127,6 @@ PowerUp2<51> pid<0> {
     AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
     NetworkComponent(0),
     LifetimeComponent(20.0, true),
-    ScriptComponent("(set-prop TransformComponent transform.m13 entity-id (+ 1.0 (* 0.3 (sin (* (get-time) 2.0)))))")
 }
 
 # Spawner entity - creates enemies periodically
@@ -144,4 +142,5 @@ SpectatorCam<100> pid<0> {
     NameComponent("SpectatorCam"),
     TagComponent(32, 0, false, true),
 }
+
 
