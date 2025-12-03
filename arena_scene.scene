@@ -133,7 +133,7 @@ PowerUp2<51> pid<0> {
 EnemySpawner<60> pid<0> {
     TransformComponent([1,0,0,0, 0,1,0,5, 0,0,1,0, 0,0,0,1]),
     LifetimeComponent(120.0, false),
-    ScriptComponent("(if (< (mod (get-time) 10.0) 0.1) (print \"Spawn enemy\") nil)")
+  
 }
 
 # Spectator camera position
@@ -142,5 +142,6 @@ SpectatorCam<100> pid<0> {
     NameComponent("SpectatorCam"),
     TagComponent(32, 0, false, true),
 }
+
 
 
