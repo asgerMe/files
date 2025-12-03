@@ -17,7 +17,6 @@ ArenaPlayer<1> pid<0> {
     NetworkComponent(1),
     LifetimeComponent(999.0, false),
     PlayerInputComponent(),
-    ScriptComponent("(let ((speed 5.0) (wPressed (input-pressed? 1 entity-id)) (velZ (get-prop VelocityComponent velocity.z entity-id))) (if wPressed (set-prop VelocityComponent velocity.z entity-id (- 0 speed)) (set-prop VelocityComponent velocity.z entity-id 0)))")
 }
 
 # Arena walls - North wall
@@ -81,7 +80,6 @@ PatrolEnemy1<30> pid<0> {
     AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
     NetworkComponent(0),
     LifetimeComponent(60.0, false),
-    ScriptComponent("(let ((angle (* (get-time) 0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent transform.m03 entity-id x) (set-prop TransformComponent transform.m23 entity-id z))")
 }
 
 # Patrolling enemy 2 - circles counter-clockwise
@@ -94,7 +92,6 @@ PatrolEnemy2<31> pid<0> {
     AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
     NetworkComponent(0),
     LifetimeComponent(60.0, false),
-    ScriptComponent("(let ((angle (* (get-time) -0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent transform.m03 entity-id x) (set-prop TransformComponent transform.m23 entity-id z))")
 }
 
 # Aggressive enemy - chases player (simplified AI)
@@ -107,7 +104,7 @@ ChaseEnemy<40> pid<0> {
     AABBComponent([-1,-2,-1, 1,2,1]),
     NetworkComponent(0),
     LifetimeComponent(45.0, false),
-    ScriptComponent("(let ((speed 2.5) (dirX (- 0 (get-prop TransformComponent transform.m03 entity-id))) (dirZ (- 0 (get-prop TransformComponent transform.m23 entity-id))) (len (sqrt (+ (* dirX dirX) (* dirZ dirZ))))) (if (> len 0.1) (let ((normX (/ dirX len)) (normZ (/ dirZ len))) (set-prop VelocityComponent velocity.x entity-id (* normX speed)) (set-prop VelocityComponent velocity.z entity-id (* normZ speed))) nil))")
+    
 }
 
 # Collectible power-up 1 - position (8, 1, 8)
@@ -147,3 +144,4 @@ SpectatorCam<100> pid<0> {
     NameComponent("SpectatorCam"),
     TagComponent(32, 0, false, true),
 }
+
