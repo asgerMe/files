@@ -1,0 +1,149 @@
+# Arena combat scene with dynamic elements
+
+# Scene root
+ArenaRoot<0> {
+    TransformComponent([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
+    ScriptComponent("(print \"Arena scene loaded\")")
+}
+
+# Main player spawned at arena center
+ArenaPlayer<1> pid<0> {
+    TransformComponent([1,0,0,0, 0,1,0,2, 0,0,1,0, 0,0,0,1]),
+    VelocityComponent([0,0,0,0]),
+    ResourceComponent(200),
+    TagComponent(1, 0, true, true),
+    NameComponent("ArenaPlayer"),
+    AABBComponent([-0.6,-1.2,-0.6, 0.6,1.2,0.6]),
+    NetworkComponent(1),
+    LifetimeComponent(999.0, false),
+    PlayerInputComponent(),
+    ScriptComponent("(let ((speed 5.0) (wPressed (input-pressed? 1 entity-id)) (velZ (get-prop VelocityComponent velocity.z entity-id))) (if wPressed (set-prop VelocityComponent velocity.z entity-id (- 0 speed)) (set-prop VelocityComponent velocity.z entity-id 0)))")
+}
+
+# Arena walls - North wall
+NorthWall<10> pid<0> {
+    TransformComponent([20,0,0,0, 0,3,0,0, 0,0,1,20, 0,0,0,1]),
+    ResourceComponent(301),
+    TagComponent(8, 0, true, true),
+    NameComponent("NorthWall"),
+    AABBComponent([-20,-3,-1, 20,3,1]),
+    NetworkComponent(0),
+}
+
+# Arena walls - South wall
+SouthWall<11> pid<0> {
+    TransformComponent([20,0,0,0, 0,3,0,0, 0,0,1,-20, 0,0,0,1]),
+    ResourceComponent(301),
+    TagComponent(8, 0, true, true),
+    NameComponent("SouthWall"),
+    AABBComponent([-20,-3,-1, 20,3,1]),
+    NetworkComponent(0),
+}
+
+# Arena walls - East wall
+EastWall<12> pid<0> {
+    TransformComponent([1,0,0,20, 0,3,0,0, 0,0,20,0, 0,0,0,1]),
+    ResourceComponent(301),
+    TagComponent(8, 0, true, true),
+    NameComponent("EastWall"),
+    AABBComponent([-1,-3,-20, 1,3,20]),
+    NetworkComponent(0),
+}
+
+# Arena walls - West wall
+WestWall<13> pid<0> {
+    TransformComponent([1,0,0,-20, 0,3,0,0, 0,0,20,0, 0,0,0,1]),
+    ResourceComponent(301),
+    TagComponent(8, 0, true, true),
+    NameComponent("WestWall"),
+    AABBComponent([-1,-3,-20, 1,3,20]),
+    NetworkComponent(0),
+}
+
+# Central pillar obstacle
+CenterPillar<20> pid<0> {
+    TransformComponent([2,0,0,0, 0,5,0,0, 0,0,2,0, 0,0,0,1]),
+    ResourceComponent(302),
+    TagComponent(8, 0, true, true),
+    NameComponent("CenterPillar"),
+    AABBComponent([-2,-5,-2, 2,5,2]),
+    NetworkComponent(0),
+    ScriptComponent("(let ((time (* (get-time) 0.5))) (set-prop TransformComponent position.y entity-id (+ 2.5 (* 1.5 (sin time)))))")
+}
+
+# Patrolling enemy 1 - circles clockwise
+PatrolEnemy1<30> pid<0> {
+    TransformComponent([1,0,0,10, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
+    VelocityComponent([0,0,2,0]),
+    ResourceComponent(400),
+    TagComponent(2, 0, true, true),
+    NameComponent("PatrolEnemy1"),
+    AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
+    NetworkComponent(0),
+    LifetimeComponent(60.0, false),
+    ScriptComponent("(let ((angle (* (get-time) 0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent position.x entity-id x) (set-prop TransformComponent position.z entity-id z))")
+}
+
+# Patrolling enemy 2 - circles counter-clockwise
+PatrolEnemy2<31> pid<0> {
+    TransformComponent([1,0,0,-10, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
+    VelocityComponent([0,0,-2,0]),
+    ResourceComponent(400),
+    TagComponent(2, 1, true, true),
+    NameComponent("PatrolEnemy2"),
+    AABBComponent([-0.8,-1.5,-0.8, 0.8,1.5,0.8]),
+    NetworkComponent(0),
+    LifetimeComponent(60.0, false),
+    ScriptComponent("(let ((angle (* (get-time) -0.8)) (radius 10.0) (x (* radius (cos angle))) (z (* radius (sin angle)))) (set-prop TransformComponent position.x entity-id x) (set-prop TransformComponent position.z entity-id z))")
+}
+
+# Aggressive enemy - chases player (simplified AI)
+ChaseEnemy<40> pid<0> {
+    TransformComponent([1,0,0,15, 0,1,0,0, 0,0,1,15, 0,0,0,1]),
+    VelocityComponent([-1,0,-1,0]),
+    ResourceComponent(401),
+    TagComponent(2, 2, true, true),
+    NameComponent("ChaseEnemy"),
+    AABBComponent([-1,-2,-1, 1,2,1]),
+    NetworkComponent(0),
+    LifetimeComponent(45.0, false),
+    ScriptComponent("(let ((speed 2.5) (dirX (- 0 (get-prop TransformComponent position.x entity-id))) (dirZ (- 0 (get-prop TransformComponent position.z entity-id))) (len (sqrt (+ (* dirX dirX) (* dirZ dirZ))))) (if (> len 0.1) (let ((normX (/ dirX len)) (normZ (/ dirZ len))) (set-prop VelocityComponent velocity.x entity-id (* normX speed)) (set-prop VelocityComponent velocity.z entity-id (* normZ speed)))))")
+}
+
+# Collectible power-up 1 - position (8, 1, 8)
+PowerUp1<50> pid<0> {
+    TransformComponent([0.8,0,0,8, 0,0.8,0,1, 0,0,0.8,8, 0,0,0,1]),
+    ResourceComponent(500),
+    TagComponent(16, 0, true, true),
+    NameComponent("PowerUp1"),
+    AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
+    NetworkComponent(0),
+    LifetimeComponent(20.0, true),
+    ScriptComponent("(set-prop TransformComponent position.y entity-id (+ 1.0 (* 0.3 (sin (* (get-time) 2.0)))))")
+}
+
+# Collectible power-up 2 - position (-8, 1, -8)
+PowerUp2<51> pid<0> {
+    TransformComponent([0.8,0,0,-8, 0,0.8,0,1, 0,0,0.8,-8, 0,0,0,1]),
+    ResourceComponent(500),
+    TagComponent(16, 1, true, true),
+    NameComponent("PowerUp2"),
+    AABBComponent([-0.5,-0.5,-0.5, 0.5,0.5,0.5]),
+    NetworkComponent(0),
+    LifetimeComponent(20.0, true),
+    ScriptComponent("(set-prop TransformComponent position.y entity-id (+ 1.0 (* 0.3 (sin (* (get-time) 2.0)))))")
+}
+
+# Spawner entity - creates enemies periodically
+EnemySpawner<60> pid<0> {
+    TransformComponent([1,0,0,0, 0,1,0,5, 0,0,1,0, 0,0,0,1]),
+    LifetimeComponent(120.0, false),
+    ScriptComponent("(if (< (mod (get-time) 10.0) 0.1) (print \"Spawn enemy\"))")
+}
+
+# Spectator camera position
+SpectatorCam<100> pid<0> {
+    TransformComponent([1,0,0,0, 0,1,0,25, 0,0,1,0, 0,0,0,1]),
+    NameComponent("SpectatorCam"),
+    TagComponent(32, 0, false, true),
+}
