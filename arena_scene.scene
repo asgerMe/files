@@ -3,7 +3,7 @@
 # Scene root
 ArenaRoot<0> {
     TransformComponent([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
-    ScriptComponent("(+ (sin (get-time)) (cos (* (get-time) 2.0)))")
+    ScriptComponent("(print (+ (sin (get-time)) (cos (* (get-time) 2.0))))")
 }
 
 # Main player spawned at arena center
@@ -17,8 +17,7 @@ ArenaPlayer<1> pid<0> {
     NetworkComponent(1),
     LifetimeComponent(999.0, false),
     PlayerInputComponent(),
-    ScriptComponent("(+ (sin (get-time)) (cos (* (get-time) 3.0)))"),
-    StreamingComponent()
+    ScriptComponent("(+ (sin (get-time)) (cos (* (get-time) 3.0)))")
 }
 
 # Arena walls - North wall
@@ -153,4 +152,3 @@ SpectatorCam<100> pid<0> {
     TagComponent(32, 0, false, true),
     ScriptComponent("(sqrt (+ (* (cos (get-time)) (cos (get-time))) (* (sin (get-time)) (sin (get-time)))))")
 }
-
