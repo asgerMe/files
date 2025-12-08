@@ -27,7 +27,7 @@ PlayerWeapon<2> pid<1> {
     NameComponent("PlayerWeapon"),
     NetworkComponent(1),
     LifetimeComponent(5.0, true),
-    EntityStreamingComponent(0, 3, 0, "https://raw.githubusercontent.com/asgerMe/files/main/test_instance_rock.mesh", 0, 30.0, false)
+    EntityStreamingComponent(0, 3, 0, "https://raw.githubusercontent.com/asgerMe/files/main/test_instance_rock", 0, 30.0, false)
 }
 
 # Enemy instance 1 - references enemy_character subscene - translate (10,0,5)
@@ -87,5 +87,6 @@ Player2_Backpack<201> pid<200> {
     NetworkComponent(2),
     LifetimeComponent(12.0, false),
 }
+
 
 
