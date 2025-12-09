@@ -6,7 +6,7 @@ SceneRoot<0> {
 
 # Player at origin with no movement
 Player<1> pid<0> {
-    TransformComponent([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
+    TransformComponent([1,0,0,0, 0,1,0,5, 0,0,1,-20, 0,0,0,1]),
     CameraComponent(0, 75.0, 0.1, 1000.0, 10.0, 10.0),
     VelocityComponent([0,0,0,0]),
     ResourceComponent(100),
@@ -88,6 +88,7 @@ Player2_Backpack<201> pid<200> {
     NetworkComponent(2),
     LifetimeComponent(12.0, false),
 }
+
 
 
 
