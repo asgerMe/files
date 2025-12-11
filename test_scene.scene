@@ -1,6 +1,6 @@
 # Scene root - all entities parent to this
 SceneRoot<0> {
-    TransformComponent([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
+    TransformComponent([12,0,0,1232, 0,0.1,0,122, 0,0,1,0, 0,0,0,1]),
     ScriptComponent("(+ 5 (* 2 3))")
 }
 
@@ -88,6 +88,7 @@ Player2_Backpack<201> pid<200> {
     NetworkComponent(2),
     LifetimeComponent(12.0, false),
 }
+
 
 
 
