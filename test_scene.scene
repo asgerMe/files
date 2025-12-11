@@ -1,5 +1,5 @@
 # Scene root - all entities parent to this
-SceneRoot<0> pid<0> {
+SceneRoot<0>{
     TransformComponent([12,0,0,1232, 0,0.1,0,122, 0,0,1,0, 0,0,0,1]),
     ScriptComponent("(+ 5 (* 2 3))")
 }
@@ -19,6 +19,7 @@ Player<1> pid<0> {
     EntityStreamingComponent(0, 3, 0, "https://raw.githubusercontent.com/asgerMe/files/main/test_instance_rock.mesh", 0, 50.0, false),
     ScriptComponent("(let ((wPressed (input-pressed? 1 entity-id))) (print wPressed) (let ((velX (get-prop VelocityComponent velocity.x entity-id))) (set-prop VelocityComponent velocity.x entity-id (+ velX (* delta-time 1.0)))))")
 }
+
 
 
 
