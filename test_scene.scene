@@ -9,6 +9,7 @@ Player<1> pid<0> {
     VelocityComponent([0,0,0,0]),
     ResourceComponent(100),
     TagComponent(1, 0, true, true),
+    EntityStreamingComponent(0, 3, 0, "https://raw.githubusercontent.com/asgerMe/files/main/test_instance_rock", 0, 50.0, false),
     NameComponent("Player"),
     AABBComponent([-0.5,-1,-0.5, 0.5,1,0.5]),
     NetworkComponent(1),
@@ -17,6 +18,7 @@ Player<1> pid<0> {
     EntityStreamingComponent(0, 3, 0, "https://raw.githubusercontent.com/asgerMe/files/main/test_instance_rock", 0, 50.0, false),
     ScriptComponent("(let ((wPressed (input-pressed? 1 entity-id))) (print wPressed) (let ((velX (get-prop VelocityComponent velocity.x entity-id))) (set-prop VelocityComponent velocity.x entity-id (+ velX (* delta-time 1.0)))))")
 }
+
 
 
 
