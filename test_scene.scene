@@ -15,9 +15,9 @@ Player<1> pid<0> {
     NetworkComponent(1),
     LifetimeComponent(10.0, false),
     PlayerInputComponent(),
-  
     ScriptComponent("(let ((wPressed (input-pressed? 1 entity-id))) (print wPressed) (let ((velX (get-prop VelocityComponent velocity.x entity-id))) (set-prop VelocityComponent velocity.x entity-id (+ velX (* delta-time 1.0)))))")
 }
+
 
 
 
